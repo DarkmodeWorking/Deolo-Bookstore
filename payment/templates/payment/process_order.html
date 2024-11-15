@@ -1,0 +1,66 @@
+{% extends "base.html" %} {% block content %}
+
+<div class="container">
+  <div class="row">
+    <div class="col-md-6 offset-md-3">
+      <div class="card bg-dark">
+        <div class="card-header">Order Summary</div>
+        <div class="card-body">
+          {% for product in cart_products %}
+            {{ product.name }}
+            {% if product.is_sale %}
+              ${{ product.sale_price }}
+            {% else %}
+              ${{ product.price }}
+            {% endif %}
+            <br>
+            <small>
+              Quantity:
+                {% for key, value in quantities.items %}
+                  {% if key == product.id|slugify %}
+                    {{ value }}
+                  {% endif %}
+                {% endfor %}
+            </small>
+            <br>
+            <br>
+          {% endfor %}
+          <strong> Total: ${{ total }} </strong>
+          <br>
+          <a href="{% url "cart_summary" %}" class="btn btn-sm btn-outline-secondary"> Update Items </a>
+        </div>
+      </div>
+      <div class="card bg-dark">
+        <div class="card-header">
+          Shipping Information
+        </div>
+        <div class="card-body">
+            <strong> Name: </strong> {{ shipping_info.shipping_full_name }} <br>
+            <strong> Email: </strong> {{ shipping_info.shipping_email }} <br>
+            <strong> Address 1: </strong> {{ shipping_info.shipping_address1 }} <br>
+            <strong> Address 2: </strong> {{ shipping_info.shipping_address2 }} <br>
+            <strong> City: </strong> {{ shipping_info.shipping_city }} <br>
+            <strong> State: </strong> {{ shipping_info.shipping_state }} <br>
+            <strong> Zipcode: </strong> {{ shipping_info.shipping_zipcode }} <br>
+            <strong> Country: </strong> {{ shipping_info.shipping_country }} <br>
+            <br>
+            <a href="{% url "checkout" %}" class="btn text-white btn-primary"> Update Shipping </a>
+        </div>
+      </div>
+      <div class="card bg-dark">
+        <div class="card-header">
+          Billing Info
+        </div>
+        <div class="card-body">
+          <form method="POST" action="{% url "process_order" %}">
+            {% csrf_token %}
+            {{ billing_form.as_p }}
+          </div>
+        </div>
+        <button type="submit" class="btn btn-secondary"> PAY NOW </button>
+      </form>
+    </div>
+  </div>
+</div>
+
+{% endblock %}

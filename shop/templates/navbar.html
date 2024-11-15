@@ -1,0 +1,48 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-black">
+    <div class="container px-4 px-lg-5">
+        <a class="navbar-brand" style="color: green; font-weight: bold; font-size: 2.5rem;" href="{% url "home" %}"> DEOLO </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4">
+
+                <li class="nav-item"><a style="font-size: 1.2rem;" class="nav-link" aria-current="page" href="{% url "home" %}">Home</a></li>
+
+                <li class="nav-item"><a style="font-size: 1.2rem;" class="nav-link" href="{% url "about" %}"> About </a></li>
+
+                {% if user.is_authenticated %}
+                <li class="nav-item dropdown">
+                    <a style="font-size: 1.2rem;" class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"> Profile </a>
+                    <ul class="dropdown-menu bg-black" aria-labelledby="navbarDropdown">
+                        <li><a class="dropdown-item text-light" href="{% url "update_user" %}" onmouseover="this.style.backgroundColor='rgb(33,37,41)';" onmouseout="this.style.backgroundColor='';"> Update User Info </a></li>
+                        <li><hr class="dropdown-divider" /></li>
+                        <li><a class="dropdown-item text-light" href="{% url 'update_info' %}" onmouseover="this.style.backgroundColor='rgb(33,37,41)';" onmouseout="this.style.backgroundColor='';"> Update Address </a></li>
+                    </ul>
+                </li>
+                <li class="nav-item"><a style="font-size: 1.2rem;" class="nav-link" href="{% url "logout" %}"> Sign Out </a></li>
+                {% else %}
+                    <li class="nav-item"><a style="font-size: 1.2rem;" class="nav-link" href="{% url "login" %}"> Sign In </a></li>
+                    <li class="nav-item"><a style="font-size: 1.2rem;" class="nav-link" href="{% url "register" %}"> Sign Up </a></li>
+                {% endif %}
+                
+                <li class="nav-item dropdown">
+                    <a style="font-size: 1.2rem;" class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Shop</a>
+                    <ul class="dropdown-menu bg-black" aria-labelledby="navbarDropdown">
+                        <li><a class="dropdown-item text-light" href="{% url "category_summary" %}" onmouseover="this.style.backgroundColor='rgb(33,37,41)';" onmouseout="this.style.backgroundColor='';"> See All </a></li>
+                        <li><hr class="dropdown-divider" /></li>
+                        <li><a class="dropdown-item text-light" href="{% url "category" 'Book' %}" onmouseover="this.style.backgroundColor='rgb(33,37,41)';" onmouseout="this.style.backgroundColor='';"> Book </a></li>
+                    </ul>
+                </li>
+
+                <li class="nav-item"><a style="font-size: 1.2rem;" class="nav-link active" aria-current="page" href="{% url "search" %}"> Search </a></li>
+            </ul>
+            <form class="d-flex">
+                
+                    <a href="{% url "cart_summary" %}" class="btn btn-outline-dark">
+                    <i class="bi-cart-fill me-1 text-light"></i>
+                    Cart
+                    <span class="badge bg-dark text-white ms-1 rounded-pill" id="cart_quantity"> {{ cart|length }} </span>
+                    </a>
+            </form>
+        </div>
+    </div>
+</nav>
